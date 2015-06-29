@@ -1,17 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="home.css">
 	</head>
 	<body>
-		<textarea id="desc"></textarea>
-		<div>
-			<button type="button" onclick="createOffer()">Create Offer</button>
-			<button type="button" id="joinSession" onclick="joinSession()">Join Session</button>
-		</div>
-		<div>
-		  <video id="localVideo" autoplay muted></video>
-  		  <video id="remoteVideo" autoplay muted></video>
-  		</div>
+		<div class="container">
+			<div class="header clearfix">
+				<nav>
+					<ul class="nav nav-pills pull-right">
+						<li class="active"><a href="#" >Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Github</a></li>
+					</ul>
+				</nav>
+				<h3 class="text-muted">Serverless-VideoChat</h3>
+			</div>
+			<div class="jumbotron">
+				<div>
+					<video id="remoteVideo" width="100%" autoplay muted></video>
+					<video id="localVideo" width="10%"  autoplay muted></video>
+				</div>
+				<div id="hangupdiv">
+					<button id="hangBtn" type="button" class="btn btn-danger btn-lg ">
+			          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Hangup
+					</button>
+				</div>
+			</div>
+			<footer class="footer">
+				<center><p>&copy; <a href="#">Naman Aggarwal</a></p></center>
+			</footer>
+			<!-- Modal -->
+			<div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h4 class="modal-title" id="myModalLabel">Serverless VideoChat</h4>
+			      </div>
+			      <div class="modal-body">
+			      	<textarea id="desc" class="form-control" rows="6" placeholder="Click the call button to initiate a call or paste the code given by your friend and click join." data-trigger="manual" data-toggle="popover" data-placement="left" data-content="Now ask your friend to paste this code in his/her window and click join."></textarea>
+			      </div>
+			      <div class="modal-footer">
+			      	<div class="modal-footer-but">
+				        <button id="callBtn" type="button" class="btn btn-success btn-lg ">
+				          <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Call
+						</button>
+						<button id="joinBtn" type="button" class="btn btn-info btn-lg ">
+				          <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Join
+						</button>
+					</div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		</div> 
+		<script src="/jquery-2.1.4.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   		<script type="text/javascript" src="/app.js"></script>
 	</body>
 </html>

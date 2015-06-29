@@ -1,3 +1,13 @@
+$(document).ready(function(){
+
+	$('#textModal').modal('show');
+	$("#callBtn").on("click",createOffer);
+	$("#joinBtn").on("click",joinSession);
+	$("#hangBtn").on("click",closeCall);
+
+});
+
+
 var servers = {"iceServers" :[{
     url: 'stun:stun.l.google.com:19302'
 }]};
@@ -27,12 +37,16 @@ peerConnection.oniceconnectionstatechange = function (event) {
             case 'connected':
             case 'completed': // on caller side
                 console.log('Connection established.');
+                $('#textModal').modal('hide');
+                $("#localVideo").show();
+                $("#hangupdiv").show();
                 break;
             case 'disconnected':
                 console.log('Disconnected.');
+                closeCall();
                 break;
             case 'failed':
-            console.log('Failed.');
+            	console.log('Failed.');
                 break;
             case 'closed':
                 console.log('Connection closed.');
@@ -49,6 +63,7 @@ function createOffer(){
   		localStream = stream;
   		peerConnection.addStream(localStream);
 		peerConnection.createOffer(onConnection,handleError);	
+		$("#desc").popover('show');
 	},
     function(error) {
       console.log("getUserMedia error: ", error);
@@ -88,6 +103,8 @@ function joinSession(){
 		peerConnection.createAnswer(sendReply,handleError);
 
 		addIceCandidates(sigdata["ice"]);
+
+		$("#desc").popover("show");
 		
 	},
     function(error) {
@@ -129,7 +146,7 @@ function onConnection(desc){
 	console.log("Description is "+desc.sdp);
 	peerConnection.setLocalDescription(desc);
 	signalData["desc"] = desc;
-	document.getElementById("joinSession").setAttribute("onclick","completeHandshake()");
+	$("#joinBtn").off("click").on("click",completeHandshake);
 
 }
 
@@ -159,4 +176,16 @@ function addIceCandidates(canArr){
 function handleError(err){
 
 	console.log("Error occured "+err);
+}
+
+
+function closeCall(){
+
+	peerConnection.close();
+	peerConnection=null;
+	
+	$("#desc").popover('hide');
+	$("#desc").val('');
+	$("#localVideo").hide();
+	$('#textModal').modal('show');
 }
