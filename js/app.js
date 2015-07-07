@@ -11,6 +11,8 @@ var App = (function(){
 
 	localVideo = document.getElementById("localVideo"),
 
+	localStream = null,
+
 	remoteVideo = document.getElementById("remoteVideo"),
 
 	txtBox      = $("#desc"),
@@ -23,6 +25,9 @@ var App = (function(){
 	getPeerConnection = function(){
 
 		peerConnection = new webkitRTCPeerConnection(servers);
+		peerConnection.onaddstream = gotRemoteStream;
+		peerConnection.onicecandidate = gotIceCandidate;
+		peerConnection.oniceconnectionstatechange = onConnectionStatusChange;
 	},
 
 	getMediaStream = function(callback){
@@ -31,6 +36,7 @@ var App = (function(){
 			{	audio:true,
 				video:true	
 			},function(stream){
+				localStream = stream;
 				callback(stream);
 			},function(error){
 
@@ -40,6 +46,10 @@ var App = (function(){
 	},
 
 	joinSession = function(){
+
+		if(peerConnection == null){
+			getPeerConnection();
+		}
 
 		var sigdata = JSON.parse(txtBox.val().trim());
 
@@ -65,6 +75,10 @@ var App = (function(){
 	},
 
 	initiateOffer = function(){
+
+		if(peerConnection == null){
+			getPeerConnection();
+		}
 
 		getMediaStream(createOffer);
 		
@@ -152,11 +166,15 @@ var App = (function(){
 
 	closeCall = function(){
 
+
 		peerConnection.close();
-		peerConnection=null;
+		//peerConnection=null;
 		
 		txtBox.popover('hide');
 		txtBox.val('');
+		localVideo.pause();
+		remoteVideo.pause();
+		localStream.stop();
 		$(localVideo).hide();
 		showModal();
 	},
@@ -195,6 +213,8 @@ var App = (function(){
 	            break;
 	        case 'closed':
 	            console.log('Connection closed.');
+	            peerConnection = null;
+	            $("#joinBtn").off("click").on("click",joinSession);
 	            break;
 	    }
 	},
@@ -208,10 +228,6 @@ var App = (function(){
 
 	attachEvents = function(){
 
-
-		peerConnection.onaddstream = gotRemoteStream;
-		peerConnection.onicecandidate = gotIceCandidate;
-		peerConnection.oniceconnectionstatechange = onConnectionStatusChange;
 		$("#callBtn").on("click",initiateOffer);
 		$("#joinBtn").on("click",joinSession);
 		$("#hangBtn").on("click",closeCall);
