@@ -169,12 +169,12 @@ var App = (function(){
 
 		peerConnection.close();
 		//peerConnection=null;
-		
+
 		txtBox.popover('hide');
 		txtBox.val('');
 		localVideo.pause();
 		remoteVideo.pause();
-		localStream.stop();
+		localStream = null;
 		$(localVideo).hide();
 		showModal();
 	},
