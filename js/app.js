@@ -4,7 +4,7 @@ var App = (function(){
 	var servers = {"iceServers" :[{
 	    url: 'stun:stun.l.google.com:19302'
 	}]},
-	
+
 	signalData = {"desc":null,"ice":[]},
 
 	peerConnection,
@@ -34,7 +34,7 @@ var App = (function(){
 
 		getUserMedia(
 			{	audio:true,
-				video:true	
+				video:true
 			},function(stream){
 				localStream = stream;
 				callback(stream);
@@ -67,9 +67,9 @@ var App = (function(){
 
 	createOffer = function(stream){
 
-		localVideo.src = URL.createObjectURL(stream);
+		localVideo.srcObject = stream;
   		peerConnection.addStream(stream);
-  		peerConnection.createOffer(onConnection,handleError);	
+  		peerConnection.createOffer(onConnection,handleError);
 		txtBox.popover('show');
 
 	},
@@ -81,7 +81,7 @@ var App = (function(){
 		}
 
 		getMediaStream(createOffer);
-		
+
 	},
 
 	onConnection = function(desc){
@@ -99,8 +99,8 @@ var App = (function(){
 
 		var sigdata = JSON.parse(txtBox.val().trim());
 
-		localVideo.src = URL.createObjectURL(stream);
-	  	
+		localVideo.srcObject = stream;
+
 	  	peerConnection.addStream(stream);
 
   		peerConnection.setRemoteDescription(new RTCSessionDescription(sigdata["desc"]),function(){console.log("Success");},handleError);
@@ -110,7 +110,7 @@ var App = (function(){
 		addIceCandidates(sigdata["ice"]);
 
 		txtBox.popover("show");
-	
+
 	},
 
 	completeHandshake = function(){
@@ -222,7 +222,7 @@ var App = (function(){
 	gotRemoteStream = function(event){
 
 		console.log("Received remote stream");
-		remoteVideo.src = URL.createObjectURL(event.stream);
+		remoteVideo.srcObject = event.stream;
 
 	},
 
@@ -231,7 +231,7 @@ var App = (function(){
 		$("#callBtn").on("click",initiateOffer);
 		$("#joinBtn").on("click",joinSession);
 		$("#hangBtn").on("click",closeCall);
-		
+
 
 	},
 
@@ -239,7 +239,7 @@ var App = (function(){
 
 
 		getPeerConnection();
-		
+
 		attachEvents();
 
 		showModal();
@@ -260,7 +260,7 @@ $(document).ready(function(){
 
 
 	App.init();
-	
+
 });
 
 
