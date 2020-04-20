@@ -29,6 +29,9 @@
 			          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Hangup
 					</button>
 				</div>
+				<div id="rowCpyJumb" class="row" style="display: none;">
+					<button id="btnCpyJumb" type="button" class="btn btn-success btn-md" data-trigger="focus" data-toggle="popover" data-placement="left" data-content="Copy the answer and send to your friend">Copy Answer</button>
+				</div>
 			</div>
 			<footer class="footer">
 				<center><p>&copy; <a href="http://naman.io/" target="_blank">Naman Aggarwal</a></p></center>
@@ -47,8 +50,19 @@
 					<h4 class="modal-title" id="myModalLabel">Serverless VideoChat</h4>
 			      </div>
 			      <div class="modal-body">
-			      	<textarea id="desc" class="form-control" rows="6" placeholder="Click the call button to initiate a call or paste the code given by your friend and click join." data-trigger="manual" data-toggle="popover" data-placement="left" data-content="Now ask your friend to paste this code in his/her window and click join."></textarea>
-			      </div>
+							<div class="container-fluid">
+								<div class="row">
+										<div class="col">
+											<textarea id="desc" class="form-control" rows="6" placeholder="Click the call button to initiate a call or paste the code given by your friend and click join." data-trigger="manual" data-toggle="popover" data-placement="left" data-content="Now ask your friend to paste this code in his/her window and click join."></textarea>
+										</div>
+								</div>
+								<div id="rowCpy" class="row" style="margin-top: 1rem;display: none;">
+									<div class="col">
+										<button id="btnCpy" type="button" class="btn btn-success btn-md">Copy</button>
+									</div>
+								</div>
+							</div>
+						</div>
 			      <div class="modal-footer">
 			      	<div class="modal-footer-but">
 				        <button id="callBtn" type="button" class="btn btn-success btn-lg ">
