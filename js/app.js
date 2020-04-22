@@ -51,6 +51,7 @@ var App = (function () {
 				alert("Please enter the offer");
 				return;
 			}
+			cpyRow.show();
 			getMediaStream(createAnswer);
 		},
 
