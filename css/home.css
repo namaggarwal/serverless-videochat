@@ -67,6 +67,11 @@ body {
 
 #localVideo{
   position:absolute;
-  bottom:8%;
+  bottom:2%;
   display:none;
+  right: 0;
+}
+
+.videoCont{
+  position: relative;
 }

@@ -14,7 +14,6 @@ var App = (function () {
 		cpyRow = $("#rowCpy"),
 		cpyJumbRow = $("#rowCpyJumb"),
 		cpyJumBtn = $("#btnCpyJumb")
-	getUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator);
 
 	var
 
@@ -23,11 +22,14 @@ var App = (function () {
 			peerConnection.onaddstream = gotRemoteStream;
 			peerConnection.onicecandidate = gotIceCandidate;
 			peerConnection.oniceconnectionstatechange = onConnectionStatusChange;
-			peerConnection.onsignalingstatechange = (event) => { console.log("Signaling change"); console.log(event); }
+			peerConnection.onsignalingstatechange = (event) => { 
+				console.log("Signaling change"); 
+				console.log(event);
+			}
 		},
 
 		getMediaStream = function (callback) {
-			getUserMedia(
+			navigator.mediaDevices.getUserMedia(
 				{
 					audio: true,
 					video: true
