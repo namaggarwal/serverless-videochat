@@ -12,7 +12,7 @@ var App = (function(){
 	cpyRow      = $("#rowCpy"),
 	cpyJumbRow  = $("#rowCpyJumb"),
   cpyJumBtn   = $("#btnCpyJumb")
-	getUserMedia = navigator.getUserMedia.bind(navigator);
+	getUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator);
 
 	var
 
