@@ -282,6 +282,8 @@ textarea.key-input {
   line-height: 1.4;
   outline: none;
   transition: border-color 0.25s, box-shadow 0.25s;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 textarea.key-input:focus {
@@ -619,18 +621,16 @@ footer a:hover {
 
 /* Connection Pending Overlay styling */
 .connection-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(10, 15, 29, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 15, 29, 0.96); /* Replaced blurred background with high-opacity dark color to bypass iOS Safari backdrop input focus bugs */
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  z-index: 100;
+  z-index: 1000; /* Fixed position and higher z-index to break free of .video-wrapper overflow constraints */
   padding: 1.5rem;
   transition: opacity 0.3s ease;
 }
@@ -693,7 +693,7 @@ footer a:hover {
   }
 
   textarea.key-input {
-    font-size: 0.8rem;
+    font-size: 16px; /* Forcing min 16px computed font size on mobile to block iOS Safari auto-zooming and keyboard shift bugs */
     padding: 0.75rem;
   }
 

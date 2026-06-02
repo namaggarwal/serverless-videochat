@@ -104,55 +104,6 @@
         <div class="local-video-card">
           <video class="local-video" id="localVideo" autoplay muted playsinline></video>
         </div>
-
-        <!-- Connection Pending Overlay -->
-        <div class="connection-overlay" id="connection-overlay" style="display: none;">
-          <div class="overlay-card">
-            <h3 class="screen-title" id="overlay-title">Establishing Connection...</h3>
-            <p class="screen-desc" id="overlay-desc">Please share your connection key to establish a call.</p>
-            
-            <!-- Loading Section -->
-            <div id="overlay-gathering" class="loading-box" style="display: none;">
-              <div class="spinner"></div>
-              <span id="overlay-gathering-text">Discovering routing candidates...</span>
-              <div class="progress-track"><div class="progress-bar" id="overlay-progress" style="width: 10%;"></div></div>
-            </div>
-            
-            <!-- Key Output Section -->
-            <div id="overlay-key-section" style="display: none;">
-              <div class="form-group">
-                <label class="form-label" id="overlay-key-label" for="overlay-key-output">Your Key</label>
-                <div class="textarea-container">
-                  <textarea id="overlay-key-output" class="key-input" rows="4" readonly onclick="this.select()"></textarea>
-                </div>
-                <div class="action-row">
-                  <button class="btn btn-success" id="btn-copy-overlay-key" type="button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    Copy Key
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Answer Input Section (for Host) -->
-            <div id="overlay-input-section" style="display: none;">
-              <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
-                <label class="form-label" for="overlay-answer-input">Paste Friend's Answer Key</label>
-                <textarea id="overlay-answer-input" class="key-input" rows="3" placeholder="Paste response key here..."></textarea>
-                <div class="action-row">
-                  <button class="btn btn-primary" id="btn-overlay-connect" type="button" disabled>
-                    Establish Connection
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Action Buttons (Minimize) -->
-            <div class="action-row" style="margin-top: 0.5rem; justify-content: flex-end;">
-              <button class="btn btn-secondary" id="btn-minimize-overlay" type="button">Minimize Overlay</button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Control Bar -->
@@ -197,6 +148,55 @@
         </button>
       </div>
     </section>
+
+    <!-- Connection Pending Overlay -->
+    <div class="connection-overlay" id="connection-overlay" style="display: none;">
+      <div class="overlay-card">
+        <h3 class="screen-title" id="overlay-title">Establishing Connection...</h3>
+        <p class="screen-desc" id="overlay-desc">Please share your connection key to establish a call.</p>
+        
+        <!-- Loading Section -->
+        <div id="overlay-gathering" class="loading-box" style="display: none;">
+          <div class="spinner"></div>
+          <span id="overlay-gathering-text">Discovering routing candidates...</span>
+          <div class="progress-track"><div class="progress-bar" id="overlay-progress" style="width: 10%;"></div></div>
+        </div>
+        
+        <!-- Key Output Section -->
+        <div id="overlay-key-section" style="display: none;">
+          <div class="form-group">
+            <label class="form-label" id="overlay-key-label" for="overlay-key-output">Your Key</label>
+            <div class="textarea-container">
+              <textarea id="overlay-key-output" class="key-input" rows="4" readonly onclick="this.select()"></textarea>
+            </div>
+            <div class="action-row">
+              <button class="btn btn-success" id="btn-copy-overlay-key" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy Key
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Answer Input Section (for Host) -->
+        <div id="overlay-input-section" style="display: none;">
+          <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+            <label class="form-label" for="overlay-answer-input">Paste Friend's Answer Key</label>
+            <textarea id="overlay-answer-input" class="key-input" rows="3" placeholder="Paste response key here..."></textarea>
+            <div class="action-row">
+              <button class="btn btn-primary" id="btn-overlay-connect" type="button" disabled>
+                Establish Connection
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons (Minimize) -->
+        <div class="action-row" style="margin-top: 0.5rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" id="btn-minimize-overlay" type="button">Minimize Overlay</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Copy Toast Notification -->
