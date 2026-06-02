@@ -17,6 +17,7 @@ const App = (() => {
   let peerConnection = null;
   let localStream = null;
   let remoteStream = null;
+  let screenStream = null;
   let iceGatheringTimeout = null;
   let isHost = false;
 
@@ -65,6 +66,7 @@ const App = (() => {
     // Media Controls
     btnToggleMic: document.getElementById('btn-toggle-mic'),
     btnToggleCam: document.getElementById('btn-toggle-cam'),
+    btnShareScreen: document.getElementById('btn-share-screen'),
     btnHangup: document.getElementById('btn-hangup'),
     iconMic: document.getElementById('icon-mic'),
     iconMicMute: document.getElementById('icon-mic-mute'),
@@ -272,6 +274,7 @@ const App = (() => {
       if (state === 'connected') {
         updateStatus('connected', 'Connected! Enjoy your call.');
         el.connectionOverlay.style.display = 'none';
+        el.btnShareScreen.disabled = false; // Enable screen sharing on connection established!
       } else if (state === 'failed') {
         updateStatus('failed', 'Connection failed.');
         alert('WebRTC connection failed. This could be due to firewall/NAT restrictions.');
@@ -540,11 +543,91 @@ const App = (() => {
   };
 
   /**
+   * Media Controls: Toggle Screen Sharing
+   */
+  const toggleScreenShare = async () => {
+    if (!peerConnection || peerConnection.iceConnectionState !== 'connected') {
+      showToast('Wait until call is connected to share screen');
+      return;
+    }
+
+    if (screenStream) {
+      await stopScreenShare();
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        screenStream = stream;
+        
+        const screenTrack = stream.getVideoTracks()[0];
+        
+        // Find the video track sender in peer connection
+        const senders = peerConnection.getSenders();
+        const videoSender = senders.find(s => s.track && s.track.kind === 'video');
+        
+        if (videoSender) {
+          await videoSender.replaceTrack(screenTrack);
+        }
+        
+        // Update local video element with the screen stream preview
+        el.localVideo.srcObject = stream;
+        
+        el.btnToggleCam.disabled = true; // Disable cam toggle during screen share
+        el.btnShareScreen.classList.add('active');
+        showToast('Screen sharing started');
+
+        // Handle native "Stop Sharing" overlay click in browser
+        screenTrack.onended = () => {
+          stopScreenShare();
+        };
+
+      } catch (err) {
+        console.error('Error starting screen share:', err);
+        showToast('Screen share cancelled or failed');
+      }
+    }
+  };
+
+  /**
+   * Media Controls: Stop Screen Sharing
+   */
+  const stopScreenShare = async () => {
+    if (!screenStream) return;
+    
+    screenStream.getTracks().forEach(t => t.stop());
+    screenStream = null;
+    
+    try {
+      const cameraTrack = localStream.getVideoTracks()[0];
+      const senders = peerConnection.getSenders();
+      const videoSender = senders.find(s => s.track && s.track.kind === 'video');
+      
+      if (videoSender && cameraTrack) {
+        await videoSender.replaceTrack(cameraTrack);
+      }
+      
+      // Restore local camera preview
+      el.localVideo.srcObject = localStream;
+      
+      el.btnToggleCam.disabled = false;
+      el.btnShareScreen.classList.remove('active');
+      showToast('Screen sharing stopped');
+    } catch (err) {
+      console.error('Error stopping screen share:', err);
+    }
+  };
+
+  /**
    * End Call & Close peer connection
    */
   const closeCall = () => {
     console.log('Ending call and resetting states...');
     
+    // Stop screen share tracks if active
+    if (screenStream) {
+      screenStream.getTracks().forEach(track => track.stop());
+      screenStream = null;
+    }
+
     // Stop local tracks
     if (localStream) {
       localStream.getTracks().forEach(track => track.stop());
@@ -602,8 +685,12 @@ const App = (() => {
     el.iconMicMute.style.display = 'none';
     
     el.btnToggleCam.classList.remove('muted');
+    el.btnToggleCam.disabled = false;
     el.iconCam.style.display = 'block';
     el.iconCamOff.style.display = 'none';
+
+    el.btnShareScreen.classList.remove('active');
+    el.btnShareScreen.disabled = true; // Disabled initially until call establishes
   };
 
   /**
@@ -668,6 +755,7 @@ const App = (() => {
     // Media and Call controls
     el.btnToggleMic.addEventListener('click', toggleMute);
     el.btnToggleCam.addEventListener('click', toggleCamera);
+    el.btnShareScreen.addEventListener('click', toggleScreenShare);
     el.btnHangup.addEventListener('click', closeCall);
   };
 
