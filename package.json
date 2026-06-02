@@ -1,0 +1,14 @@
+{
+  "name": "serverless-videochat",
+  "version": "1.1.0",
+  "description": "Peer to peer video chat service using WebRTC with manual serverless signaling.",
+  "scripts": {
+    "start": "npx http-server -p 2222"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/namaggarwal/serverless-videochat.git"
+  },
+  "author": "Naman Aggarwal",
+  "license": "MIT"
+}

@@ -1,84 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/home.css">
-	</head>
-	<body>
-		<div class="container">
-			<div class="header clearfix">
-				<nav>
-					<ul class="nav nav-pills pull-right">
-						<li class="active"><a href="http://namaggarwal.github.io/serverless-videochat" >Home</a></li>
-						<li><a href="http://comp.nus.edu.sg/~naman" target="_blank">About</a></li>
-						<li><a href="https://github.com/namaggarwal/serverless-videochat" target="_blank">Github</a></li>
-					</ul>
-				</nav>
-				<h3 class="text-muted">Serverless-VideoChat</h3>
-			</div>
-			<div class="jumbotron">
-				<div class="videoCont">
-					<video id="remoteVideo" width="100%" autoplay></video>
-					<video id="localVideo" width="30%" muted autoplay></video>
-				</div>
-				<div id="hangupdiv">
-					<button id="hangBtn" type="button" class="btn btn-danger btn-lg ">
-			          <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Hangup
-					</button>
-				</div>
-				<div id="rowCpyJumb" class="row" style="display: none;">
-					<button id="btnCpyJumb" type="button" class="btn btn-success btn-md" data-trigger="focus" data-toggle="popover" data-placement="left" data-content="Copy the answer and send to your friend">Copy Answer</button>
-				</div>
-			</div>
-			<footer class="footer">
-				<center><p>&copy; <a href="http://naman.io/" target="_blank">Naman Aggarwal</a></p></center>
-			</footer>
-			<!-- Modal -->
-			<div class="modal fade" id="textModal" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="myModalLabel" data-backdrop="static">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <nav>
-						<ul class="nav nav-pills pull-right">
-							<li><a href="http://comp.nus.edu.sg/~naman" target="_blank">About</a></li>
-							<li><a href="https://github.com/namaggarwal/serverless-videochat" target="_blank">Github</a></li>
-						</ul>
-					</nav>
-					<h4 class="modal-title" id="myModalLabel">Serverless VideoChat</h4>
-			      </div>
-			      <div class="modal-body">
-							<div class="container-fluid">
-								<div class="row">
-										<div class="col">
-											<textarea id="desc" class="form-control" rows="6" placeholder="Click the call button to initiate a call or paste the code given by your friend and click join." data-trigger="manual" data-toggle="popover" data-placement="left" data-content="Now ask your friend to paste this code in his/her window and click join."></textarea>
-										</div>
-								</div>
-								<div id="rowCpy" class="row" style="margin-top: 1rem;display: none;">
-									<div class="col">
-										<button id="btnCpy" type="button" class="btn btn-success btn-md">Copy</button>
-									</div>
-								</div>
-							</div>
-						</div>
-			      <div class="modal-footer">
-			      	<div class="modal-footer-but">
-				        <button id="callBtn" type="button" class="btn btn-success btn-lg ">
-				          <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Call
-						</button>
-						<button id="joinBtn" type="button" class="btn btn-info btn-lg ">
-				          <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Join
-						</button>
-					</div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-		</div> 
-		<script src="js/jquery-2.1.4.min.js"></script>
-  		<script src="js/bootstrap.min.js"></script>
-  		<script type="text/javascript" src="js/app.js"></script>
-	</body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Serverless VideoChat - Secure Peer-to-Peer Video Calls</title>
+  <meta name="description" content="Experience serverless, direct peer-to-peer video calls in your browser. Fully secure WebRTC connections without signup, logging, or third-party signaling servers.">
+  <meta name="keywords" content="webrtc, serverless, peer-to-peer, video chat, secure video call, serverless video chat, p2p video, browser video chat">
+  <meta name="author" content="Naman Aggarwal">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://namaggarwal.github.io/serverless-videochat/">
+  <meta property="og:title" content="Serverless VideoChat - Secure Peer-to-Peer Video Calls">
+  <meta property="og:description" content="Experience serverless, direct peer-to-peer video calls in your browser. Fully secure WebRTC connections without signup, logging, or third-party signaling servers.">
+  <meta property="og:image" content="https://namaggarwal.github.io/serverless-videochat/images/preview.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://namaggarwal.github.io/serverless-videochat/">
+  <meta property="twitter:title" content="Serverless VideoChat - Secure Peer-to-Peer Video Calls">
+  <meta property="twitter:description" content="Experience serverless, direct peer-to-peer video calls in your browser. Fully secure WebRTC connections without signup, logging, or third-party signaling servers.">
+  <meta property="twitter:image" content="https://namaggarwal.github.io/serverless-videochat/images/preview.png">
+
+  <link rel="canonical" href="https://namaggarwal.github.io/serverless-videochat/">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <a href="./" class="brand">
+      <div class="brand-logo">
+        <!-- SVG Logo: Video Camera -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" fill="#ffffff"/>
+        </svg>
+      </div>
+      <h1 class="brand-name">Serverless VideoChat</h1>
+    </a>
+    <nav aria-label="Main Navigation">
+      <ul class="nav-links">
+        <li><a href="./">Home</a></li>
+        <li><a href="https://comp.nus.edu.sg/~naman" target="_blank" rel="noopener noreferrer">About</a></li>
+        <li><a href="https://github.com/namaggarwal/serverless-videochat" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Connection Status Bar -->
+    <div class="status-indicator-bar" id="status-bar">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">Disconnected</span>
+    </div>
+
+    <!-- Wizard Setup Panel -->
+    <section class="setup-panel" id="setup-panel" aria-label="Video Call Setup">
+      <div class="wizard-tabs">
+        <button class="tab-btn active" id="tab-host" type="button" aria-controls="screen-host" aria-selected="true">Host a Call</button>
+        <button class="tab-btn" id="tab-join" type="button" aria-controls="screen-join" aria-selected="false">Join a Call</button>
+      </div>
+
+      <!-- HOST SCREEN -->
+      <div class="screen active" id="screen-host" role="tabpanel" aria-labelledby="tab-host">
+        <h2 class="screen-title">Start a New Video Call</h2>
+        <p class="screen-desc">Initiate a direct connection key, share it with your friend, and wait for them to respond.</p>
+        
+        <div id="host-step-1">
+          <button class="btn btn-primary" id="btn-initiate-host" type="button">
+            Generate Connection Key
+          </button>
+        </div>
+      </div>
+
+      <!-- JOIN SCREEN -->
+      <div class="screen" id="screen-join" role="tabpanel" aria-labelledby="tab-join">
+        <h2 class="screen-title">Join a Video Call</h2>
+        <p class="screen-desc">Paste the host's connection key to join their direct peer-to-peer session.</p>
+
+        <div id="join-step-1">
+          <div class="form-group">
+            <label class="form-label" for="join-offer-input">Paste Host's Connection Key</label>
+            <textarea id="join-offer-input" class="key-input" rows="4" placeholder="Paste the connection key generated by the host..."></textarea>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-primary" id="btn-submit-offer" type="button" disabled>
+              Generate Answer Key
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Calling Interface -->
+    <section class="video-interface" id="video-interface" aria-label="Video Call Interface">
+      <div class="video-wrapper">
+        <!-- Remote Video -->
+        <video class="remote-video" id="remoteVideo" autoplay playsinline></video>
+        
+        <!-- Local Preview Video Card (floating) -->
+        <div class="local-video-card">
+          <video class="local-video" id="localVideo" autoplay muted playsinline></video>
+        </div>
+
+        <!-- Connection Pending Overlay -->
+        <div class="connection-overlay" id="connection-overlay" style="display: none;">
+          <div class="overlay-card">
+            <h3 class="screen-title" id="overlay-title">Establishing Connection...</h3>
+            <p class="screen-desc" id="overlay-desc">Please share your connection key to establish a call.</p>
+            
+            <!-- Loading Section -->
+            <div id="overlay-gathering" class="loading-box" style="display: none;">
+              <div class="spinner"></div>
+              <span id="overlay-gathering-text">Discovering routing candidates...</span>
+              <div class="progress-track"><div class="progress-bar" id="overlay-progress" style="width: 10%;"></div></div>
+            </div>
+            
+            <!-- Key Output Section -->
+            <div id="overlay-key-section" style="display: none;">
+              <div class="form-group">
+                <label class="form-label" id="overlay-key-label" for="overlay-key-output">Your Key</label>
+                <div class="textarea-container">
+                  <textarea id="overlay-key-output" class="key-input" rows="4" readonly onclick="this.select()"></textarea>
+                </div>
+                <div class="action-row">
+                  <button class="btn btn-success" id="btn-copy-overlay-key" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy Key
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Answer Input Section (for Host) -->
+            <div id="overlay-input-section" style="display: none;">
+              <div class="form-group" style="margin-top: 1rem; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+                <label class="form-label" for="overlay-answer-input">Paste Friend's Answer Key</label>
+                <textarea id="overlay-answer-input" class="key-input" rows="3" placeholder="Paste response key here..."></textarea>
+                <div class="action-row">
+                  <button class="btn btn-primary" id="btn-overlay-connect" type="button" disabled>
+                    Establish Connection
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Action Buttons (Minimize) -->
+            <div class="action-row" style="margin-top: 0.5rem; justify-content: flex-end;">
+              <button class="btn btn-secondary" id="btn-minimize-overlay" type="button">Minimize Overlay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Bar -->
+      <div class="control-bar">
+        <!-- Connection Info / Toggle Overlay -->
+        <button class="control-btn" id="btn-toggle-overlay" type="button" aria-label="Toggle Connection Info" title="Connection Info">
+          <!-- Key Icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="var(--text-primary)"/>
+          </svg>
+        </button>
+
+        <!-- Mic Toggle -->
+        <button class="control-btn" id="btn-toggle-mic" type="button" aria-label="Toggle Microphone" title="Toggle Microphone">
+          <svg viewBox="0 0 24 24" id="icon-mic">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+          <svg viewBox="0 0 24 24" id="icon-mic-mute" style="display: none;">
+            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-1.02.9-2.18.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.34 3 3 3 .11 0 .22-.01.33-.02l2.28 2.28c-.82.43-1.72.74-2.61.82V21h-2v-3.08c-3.39-.49-6-3.39-6-6.92h2c0 2.76 2.24 5 5 5 .59 0 1.15-.12 1.67-.31l1.9 1.9C13.43 17.84 12.74 18 12 18c-3.86 0-7-3.14-7-7H3c0 4.42 3.28 8.09 7.5 8.74V23h3v-3.26c2.03-.31 3.87-1.29 5.23-2.67l2 2 1.27-1.27L4.27 3z"/>
+          </svg>
+        </button>
+
+        <!-- Video Camera Toggle -->
+        <button class="control-btn" id="btn-toggle-cam" type="button" aria-label="Toggle Camera" title="Toggle Camera">
+          <svg viewBox="0 0 24 24" id="icon-cam">
+            <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+          </svg>
+          <svg viewBox="0 0 24 24" id="icon-cam-off" style="display: none;">
+            <path d="M21 6.5l-4 4V7c0-.55-.45-1-1-1H9.82L21 17.18V6.5zM3.27 2L2 3.27 4.73 6H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-2.73L20.73 21 22 19.73 3.27 2zM15 16H5V8h1.73l8 8H15z"/>
+          </svg>
+        </button>
+
+        <!-- Hang Up -->
+        <button class="control-btn control-btn-danger" id="btn-hangup" type="button" aria-label="End Call" title="End Call">
+          <!-- SVG End Call Phone Down -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 9c-2.2 0-4.3.3-6.2.9v4c0 .5.3.9.7 1.1 1.3.7 2.7 1.1 4.1 1.3.4.1.8-.1 1-.4l1.6-2c.2-.2.3-.5.3-.8V9.3C13.1 9.1 12.6 9 12 9z" fill="#ffffff"/>
+            <path d="M21.2 15.6c-.3-.4-.7-.6-1.2-.6-1.4-.2-2.8-.6-4.1-1.3-.2-.1-.5-.2-.7-.1l-1.6 2c-.2.2-.3.5-.3.8v3.6c1.1.2 2.2.4 3.3.4 2.2 0 4.3-.3 6.2-.9v-4c0-.4-.2-.8-.6-.9z" fill="#ffffff" opacity="0.3"/>
+            <path d="M2.8 15.6c.3-.4.7-.6 1.2-.6 1.4-.2 2.8-.6 4.1-1.3.2-.1.5-.2.7-.1l1.6 2c.2.2.3.5.3.8v3.6c-1.1.2-2.2.4-3.3.4-2.2 0-4.3-.3-6.2-.9v-4c0-.4.2-.8.6-.9z" fill="#ffffff" opacity="0.3"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Copy Toast Notification -->
+  <div class="toast-msg" id="toast-msg" role="alert" aria-live="assertive">
+    <svg viewBox="0 0 24 24" width="18" height="18">
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+    </svg>
+    <span id="toast-text">Key copied to clipboard!</span>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 <a href="http://naman.io/" target="_blank" rel="noopener noreferrer">Naman Aggarwal</a>. All rights reserved.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
 </html>
